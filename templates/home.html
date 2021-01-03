@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自动化测试平台</title>
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/toastr.min.css">
+    <script src="/static/js/jquery-3.3.1.js"></script>
+    <script src="/static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script src="/static/js/toastr.min.js"></script>
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <link rel="stylesheet" href="/static/css/home.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.css">
+    <link rel="stylesheet" href="/static/css/custom-styles.css">
+
+    <style>
+        #user_icon {
+            font-size: 18px;
+            margin-right: 10px;
+            vertical-align: -3px;
+        }
+
+    </style>
+</head>
+<div>
+
+    <nav class="tab navbar  navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">金斧子自动化测试平台</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span id="user_icon"
+                                          class="glyphicon glyphicon-user"></span>{{ request.user.username }}</a></li>
+                    <li><a href="/logout/">注销</a></li>
+                    <li><a href="/set_pwd/">修改密码</a></li>
+
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <!--左侧菜单-->
+    <nav class="navbar-default navbar-side" role="navigation">
+        <div class="sidebar-container">
+            <div class="left">
+                <div class="row">
+                    <div class="col-sm-3 col-md-2 sidebar">
+                        <ul class="nav nav-sidebar">
+                                <li>
+                                    <a class="active-menu" href="/admin/index"><i class="fa fa-dashboard"></i> 系统概括</a>
+                                </li>
+                               <li>
+                                    <a href="/admin/project"><i class="fa fa-desktop"></i> 项目管理</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/page"><i class="fa fa-bar-chart-o"></i> 页面管理</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/element"><i class="fa fa-qrcode"></i> 页面元素</a>
+                                </li>
+
+                                <li>
+                                    <a href="/admin/keyword"><i class="fa fa-table"></i> 关键字库</a>
+                                </li>
+                                <li>
+                                    <a href="/admin/testcase"><i class="fa fa-edit"></i> 测试用例 </a>
+                                </li>
+                                <li>
+                                    <a href="/admin/result"><i class="fa fa-fw fa-file"></i> 测试结果 </a>
+                                </li>
+                                <li>
+                                    <a href="/admin/loginConfig"><i class="fa fa-fw fa-building-o"></i> 登录配置 </a>
+                                </li>
+                                <li>
+                                    <a href="/admin/task"><i class="fa fa-fw fa-sitemap"></i> 任务管理 </a>
+                                </li>
+
+                        </ul>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </nav>
+        <div id="page-wrapper">
+            <div id="page-inner">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="page-header">
+                            系统概括
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</div>
+
+<script src="/static/js/jquery-3.3.1.js"></script>
+<script src="/static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+<script>
+    // 左侧菜单
+    $(".head").on("click",function(){
+        //兄弟标签紧挨着的ul标签隐藏addclass("hide")
+        $(this).parent().siblings().children("ul").slideUp();
+        //把自己紧挨着的ul标签显示removeClass("hide")
+            $(this).next().removeClass("hide");
+        $(this).next().slideToggle();
+    });
+</script>
+
+<script>
+
+        toastr.options= {
+                "closeButton":false,//显示关闭按钮
+                "debug":false,//启用debug
+                "positionClass":"toast-top-center",//弹出的位置
+                "showDuration":"300",//显示的时间
+                "hideDuration":"1000",//消失的时间
+                "timeOut":"5000",//停留的时间
+                "extendedTimeOut":"1000",//控制时间
+                "showEasing":"swing",//显示时的动画缓冲方式
+                "hideEasing":"linear",//消失时的动画缓冲方式
+                "showMethod":"fadeIn",//显示时的动画方式
+                "hideMethod":"fadeOut"//消失时的动画方式
+                };
+        // // 新建项目验证
+
+    $(".btn_sub").click(function () {
+
+        $.ajax({
+            url: "/add_project/",
+            type: "post",
+            data: {
+                project_name: $("#project_name").val(),
+                project_desc: $("#project_desc").val(),
+                testers: $("#testers").val(),
+                csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val(),
+            },
+            success: function (data) {
+
+                if (data.status== 0) {
+                    // alert(111)
+                    toastr.success('新增项目成功');
+                    if (location.search){
+                            location.href = location.search.slice(6)
+                    }
+                    else {
+                        setTimeout(function () {
+                            location.href = "/project/"
+                        }, 2000)
+
+                    }
+
+                }
+                else {
+
+
+                    $(".error").text(data.msg);
+                    setTimeout(function () {
+                        $(".error").text("");
+
+                    }, 5000)
+                }
+
+
+
+            }
+
+        })
+    });
+
+
+ // 新建模块验证
+
+    $(".add_module").click(function () {
+
+        $.ajax({
+            url: "/add_modules/",
+            type: "post",
+            data: {
+                project_id: $("#project_id").val(),
+                modules_name: $("#modules_name").val(),
+                modules_desc: $("#modules_desc").val(),
+                testers: $("#testers").val(),
+                csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val(),
+            },
+            success: function (data) {
+
+                if (data.status== 0) {
+                    toastr.success('新增模块成功');
+
+                    setTimeout(function () {
+                        location.href = "/modules/"
+                    }, 2000)
+
+
+                }
+
+                else {
+
+
+                    $(".error").text(data.msg);
+                    setTimeout(function () {
+                        $(".error").text("");
+
+                    }, 5000)
+                }
+
+
+
+            }
+
+        })
+    })
+
+
+    // 删除
+
+    $("#btn_del").click(function () {
+        var env_ids = new Array();
+        var count = 0;
+        var i = 0;
+        $("#myAlert1").css("display","none");
+        $("#table").find(":checkbox:checkbox").each(function () {
+            env_id = $(this).parent().next().text();
+            alert(env_id)
+            if(env_id != ""){
+                env_ids[i++] = env_id;
+            }
+            count ++;
+
+        });
+        if (count==0){
+            $("#myAlert1").css("display", "inherit");
+            return false;
+        }
+        else {
+            $("#ipt1").val(env_ids);
+            $("#del").submit();
+        }
+    });
+
+// 新建接口测试用例
+
+    $(".add_api_case").click(function () {
+
+        $.ajax({
+            url: "/add_api_case/",
+            type: "post",
+            data: {
+                project_id: $("#project_id").val(),
+                module_id: $("#module_id").val(),
+                api_case_name: $("#api_case_name").val(),
+                api_desc: $("#api_desc").val(),
+                testers: $("#testers").val(),
+                csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val(),
+            },
+            success: function (data) {
+
+                if (data.status== 0) {
+                    toastr.success('新增接口测试用例成功');
+
+                    setTimeout(function () {
+                        location.href = "/apitest_manage/"
+                    }, 2000)
+
+
+                }
+
+                else {
+
+
+                    $(".error").text(data.msg);
+                    setTimeout(function () {
+                        $(".error").text("");
+
+                    }, 5000)
+                }
+
+
+
+            }
+
+        })
+    })
+
+
+
+
+</script>
+</body>
+</html>
