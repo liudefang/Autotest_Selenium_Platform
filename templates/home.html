@@ -12,6 +12,15 @@
     <link rel="stylesheet" href="/static/css/home.css">
     <link rel="stylesheet" href="/static/css/font-awesome.css">
     <link rel="stylesheet" href="/static/css/custom-styles.css">
+     <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/jquery.metisMenu.js"></script>
+    <script src="/static/js/morris/raphael-2.1.0.min.js"></script>
+    <script src="/static/js/morris/morris.js"></script>
+    <script src="/static/js/dataTables/jquery.dataTables.js"></script>
+     <script src="/static/js/dataTables/dataTables.bootstrap.js"></script>
+     <script src="/static/js/custom-scripts.js"></script>
+     <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+     <script src="https://code.highcharts.com/highcharts.js"></script>
 
     <style>
         #user_icon {
@@ -22,6 +31,7 @@
 
     </style>
 </head>
+<body>
 <div>
 
     <nav class="tab navbar  navbar-fixed-top">
@@ -51,52 +61,42 @@
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
-    <!--左侧菜单-->
-    <nav class="navbar-default navbar-side" role="navigation">
-        <div class="sidebar-container">
-            <div class="left">
-                <div class="row">
-                    <div class="col-sm-3 col-md-2 sidebar">
-                        <ul class="nav nav-sidebar">
-                                <li>
-                                    <a class="active-menu" href="/admin/index"><i class="fa fa-dashboard"></i> 系统概括</a>
-                                </li>
-                               <li>
-                                    <a href="/admin/project"><i class="fa fa-desktop"></i> 项目管理</a>
-                                </li>
-                                <li>
-                                    <a href="/admin/page"><i class="fa fa-bar-chart-o"></i> 页面管理</a>
-                                </li>
-                                <li>
-                                    <a href="/admin/element"><i class="fa fa-qrcode"></i> 页面元素</a>
-                                </li>
+        <!--左侧菜单-->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-container">
+                <ul class="nav"  id="main-menu">
+                        <li>
+                            <a class="active-menu" href="/admin/index"><i class="fa fa-dashboard"></i> 系统概括</a>
+                        </li>
+                       <li>
+                            <a href="/admin/project"><i class="fa fa-desktop"></i> 项目管理</a>
+                        </li>
+                        <li>
+                            <a href="/admin/page"><i class="fa fa-bar-chart-o"></i> 模块管理</a>
+                        </li>
+                        <li>
+                            <a href="/admin/element"><i class="fa fa-qrcode"></i> 页面元素</a>
+                        </li>
 
-                                <li>
-                                    <a href="/admin/keyword"><i class="fa fa-table"></i> 关键字库</a>
-                                </li>
-                                <li>
-                                    <a href="/admin/testcase"><i class="fa fa-edit"></i> 测试用例 </a>
-                                </li>
-                                <li>
-                                    <a href="/admin/result"><i class="fa fa-fw fa-file"></i> 测试结果 </a>
-                                </li>
-                                <li>
-                                    <a href="/admin/loginConfig"><i class="fa fa-fw fa-building-o"></i> 登录配置 </a>
-                                </li>
-                                <li>
-                                    <a href="/admin/task"><i class="fa fa-fw fa-sitemap"></i> 任务管理 </a>
-                                </li>
-
-                        </ul>
-
-                    </div>
-                </div>
-
+                        <li>
+                            <a href="/admin/keyword"><i class="fa fa-table"></i> 关键字库</a>
+                        </li>
+                        <li>
+                            <a href="/admin/testcase"><i class="fa fa-edit"></i> 测试用例 </a>
+                        </li>
+                        <li>
+                            <a href="/admin/result"><i class="fa fa-fw fa-file"></i> 测试结果 </a>
+                        </li>
+                        <li>
+                            <a href="/admin/loginConfig"><i class="fa fa-fw fa-building-o"></i> 登录配置 </a>
+                        </li>
+                        <li>
+                            <a href="/admin/task"><i class="fa fa-fw fa-sitemap"></i> 任务管理 </a>
+                        </li>
+                </ul>
             </div>
-        </div>
 
-
-    </nav>
+        </nav>
         <div id="page-wrapper">
             <div id="page-inner">
                 <div class="row">
@@ -106,10 +106,54 @@
                         </h1>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div id="bar-chart">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="panel-default">
+                            <div id="line-chart"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <!--/.表格-->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                    <thead>
+                                    <tr>
+                                        <th>项目名称</th>
+                                        <th>用例数量</th>
+                                        <th>总成功数</th>
+                                        <th>总失败数</th>
+                                        <th>今天成功数</th>
+                                        <th>今天失败数</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="Summary"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/.表格-->
+            <footer>
+                <p class="text-center"></p>
+            </footer>
         </div>
-
 </div>
+
+
 
 <script src="/static/js/jquery-3.3.1.js"></script>
 <script src="/static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
@@ -139,168 +183,127 @@
                 "showMethod":"fadeIn",//显示时的动画方式
                 "hideMethod":"fadeOut"//消失时的动画方式
                 };
-        // // 新建项目验证
+       init();
+       function init(){
+           $("#Summary").find("tr").remove();
+           $.ajax({
+               url: '/api/projectSummary',
+               type: 'POST',
+               dataType: 'json',
+               success:function (res){
+                   if(res.code == 200){
+                       var tr = '';
+                       for (var i =0; i < res.data.length; i++){
+                           tr += "<tr class='odd'>";
+                            tr += "<td class='center'>" + res.data[i].projectName + "</td>";
+                            tr += '<td class="center">' + res.data[i].testcaseNum + '</td>';
+                            tr += "<td class='center'>" + res.data[i].successfulTotal + "</td>";
+                            tr += '<td class="center">' + res.data[i].failureTotal + '</td>';
+                            tr += "<td class='center'>" + res.data[i].successfulToday + "</td>";
+                            tr += '<td class="center">' + res.data[i].failureToday + '</td>';
+                            tr += '</tr>';
+                       }
+                       $("#Summary").append(tr);
+                   }
+               }
+           });
+           loadingChar();
+           loadLinChar();
+       }
+       function loadLineChar(){
+           $.ajax({
+               url: '/api/lineChar',
+               type: 'POST',
+               dataType: 'json',
+               success: function (res){
+                   if(res.code == 200){
+                       var title = {
+                           text: '测试结果趋势'
+                       };
+                       var xAxis = {
+                           categories: res.data.days
+                       };
+                       var yAxis = {
+                           title: {
+                               text: '次数'
+                           }
+                       };
+                       var plotOptions = {
+                           line: {
+                               dataLabels: {
+                                   enable: true
+                               },
+                               enableMouseTracking: false
+                           }
+                       };
+                       var series = res.data.data
+                       var json = {}
+                       json.title = title;
+                       json.xAxis = xAxis;
+                       json.yAxis = yAxis;
+                       json.series = series;
+                       json.plotOptions =plotOptions;
+                       $('#line-chart').highcharts(json);
+                   }
+               }
+           });
+       }
+       function loadingChar(){
+           $.ajax({
+               url: '/api/barChar',
+               type: 'POST',
+               dataType: 'json',
+               success: function (res){
+                   if (res.code == 200){
+                       var char = {
+                           type: 'column'
+                       };
+                       var title = {
+                           text: '项目概括'
+                       };
+                       var xAxis = {
+                           categories: res.data.project,
+                           crosshair: true
+                       };
+                       var yAxis = {
+                           min: 0,
+                           title: {
+                               text: '次数'
+                           }
+                       };
+                       var tooltip = {
+                           headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                            '<td style="padding:0"><b>{point.y:.1f} </b></td></tr>',
+                            footerFormat: '</table>',
+                            shared: true,
+                            useHTML: true
+                       };
+                       var plotOptions = {
+                           column: {
+                               pointPadding: 0.2,
+                               borderWidth: 0
+                           }
+                       };
+                       var credits = {
+                           enabled: false
+                       };
+                       var series = res.data.data
 
-    $(".btn_sub").click(function () {
-
-        $.ajax({
-            url: "/add_project/",
-            type: "post",
-            data: {
-                project_name: $("#project_name").val(),
-                project_desc: $("#project_desc").val(),
-                testers: $("#testers").val(),
-                csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val(),
-            },
-            success: function (data) {
-
-                if (data.status== 0) {
-                    // alert(111)
-                    toastr.success('新增项目成功');
-                    if (location.search){
-                            location.href = location.search.slice(6)
-                    }
-                    else {
-                        setTimeout(function () {
-                            location.href = "/project/"
-                        }, 2000)
-
-                    }
-
-                }
-                else {
-
-
-                    $(".error").text(data.msg);
-                    setTimeout(function () {
-                        $(".error").text("");
-
-                    }, 5000)
-                }
-
-
-
-            }
-
-        })
-    });
-
-
- // 新建模块验证
-
-    $(".add_module").click(function () {
-
-        $.ajax({
-            url: "/add_modules/",
-            type: "post",
-            data: {
-                project_id: $("#project_id").val(),
-                modules_name: $("#modules_name").val(),
-                modules_desc: $("#modules_desc").val(),
-                testers: $("#testers").val(),
-                csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val(),
-            },
-            success: function (data) {
-
-                if (data.status== 0) {
-                    toastr.success('新增模块成功');
-
-                    setTimeout(function () {
-                        location.href = "/modules/"
-                    }, 2000)
-
-
-                }
-
-                else {
-
-
-                    $(".error").text(data.msg);
-                    setTimeout(function () {
-                        $(".error").text("");
-
-                    }, 5000)
-                }
-
-
-
-            }
-
-        })
-    })
-
-
-    // 删除
-
-    $("#btn_del").click(function () {
-        var env_ids = new Array();
-        var count = 0;
-        var i = 0;
-        $("#myAlert1").css("display","none");
-        $("#table").find(":checkbox:checkbox").each(function () {
-            env_id = $(this).parent().next().text();
-            alert(env_id)
-            if(env_id != ""){
-                env_ids[i++] = env_id;
-            }
-            count ++;
-
-        });
-        if (count==0){
-            $("#myAlert1").css("display", "inherit");
-            return false;
-        }
-        else {
-            $("#ipt1").val(env_ids);
-            $("#del").submit();
-        }
-    });
-
-// 新建接口测试用例
-
-    $(".add_api_case").click(function () {
-
-        $.ajax({
-            url: "/add_api_case/",
-            type: "post",
-            data: {
-                project_id: $("#project_id").val(),
-                module_id: $("#module_id").val(),
-                api_case_name: $("#api_case_name").val(),
-                api_desc: $("#api_desc").val(),
-                testers: $("#testers").val(),
-                csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val(),
-            },
-            success: function (data) {
-
-                if (data.status== 0) {
-                    toastr.success('新增接口测试用例成功');
-
-                    setTimeout(function () {
-                        location.href = "/apitest_manage/"
-                    }, 2000)
-
-
-                }
-
-                else {
-
-
-                    $(".error").text(data.msg);
-                    setTimeout(function () {
-                        $(".error").text("");
-
-                    }, 5000)
-                }
-
-
-
-            }
-
-        })
-    })
-
-
+                       var json = {};
+                       json.chart = char;
+                       json.title = title;
+                       json.tooltip = tooltip;
+                       json.xAxis = xAxis;
+                       json.yAxis = yAxis;
+                       json.series = series;
+                       json.plotOptions = plotOptions;
+                       json.credits = credits;
+                       $('#bar-chart').highcharts(json);
+                   }
+               }
+           });
+       }
 
 
 </script>

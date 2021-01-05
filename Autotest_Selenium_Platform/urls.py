@@ -24,4 +24,9 @@ urlpatterns = [
     url(r'^login', views.login, name='login'),
     url(r'^register/$', views.register),
     url(r'^home/$', views.home),
+    url(r'^', views.login, name='login'),
+    url(r'^api/browser', Public.data),
+    url(r'^api/projectSummary', Public.index),
+    url(r'^api/barChar', Public.bar_char),
+    url(r'^api/lineChar', Public.line_char),
 ]

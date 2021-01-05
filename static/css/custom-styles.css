@@ -7,7 +7,7 @@ body {
 
  #wrapper {
     width: 100%;
-    background:#09192A;
+
 }
 
 #page-wrapper {
@@ -298,9 +298,6 @@ padding: 0px 15px;
 font-size: 13px;
 line-height: 21px;
 padding-top: 4px;
-}
-.active-menu {
-    background-color:#225081!important;
 }
 
 .arrow {

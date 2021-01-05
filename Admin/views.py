@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from Admin.forms import RegForm
+from Product.models import UserInfo
 
 # Create your views here.
 
@@ -17,9 +18,6 @@ from Admin.forms import RegForm
 #     return render(request,'index1.html')
 
 # 注册
-from Product.models import UserInfo
-
-
 def register(request):
     if request.is_ajax():
         print(request.POST)

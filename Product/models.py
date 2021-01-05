@@ -10,44 +10,46 @@ import time
 
 # Create your models here.
 class Project(models.Model):
-    name = models.CharField(max_length=20, null=False)
-    remark = models.TextField(null=True)
-    creator = models.CharField(max_length=20, null=False, default='少年')
-    createTime = models.DateTimeField(default=timezone.now)
+    """
+    项目管理表
+    """
+    pid = models.AutoField(primary_key=True)
+    project_name = models.CharField('项目名称', max_length=64)   # 项目名称
+    project_desc = models.CharField('项目描述', max_length=256)  # 项目描述
+    testers = models.CharField('测试负责人', max_length=256)    # 项目负责人
+    create_time = models.DateTimeField('创建时间', auto_now=True)   # 创建时间
 
     class Meta:
-        db_table = 'project'
+        verbose_name = '项目管理'
+        verbose_name_plural = '项目管理'
 
-    def clean(self):
-        name = self.name.strip() if self.name else ""
-        if 0 >= len(name) or len(name) > 20:
-            raise ValidationError({'name': '无效的项目名称'})
+    def __str__(self):
+        return self.project_name
 
 
-class Page(models.Model):
-    projectId = models.IntegerField()
-    name = models.CharField(max_length=20, null=False)
-    remark = models.TextField(null=True)
-    createTime = models.DateTimeField(default=timezone.now)
+class Modules(models.Model):
+    """
+    模块表
+    """
+    mid = models.AutoField(primary_key=True)
+    Project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    modules_name = models.CharField('模块名称', max_length=20)  # 模块名称
+    testers = models.CharField('测试人员', max_length=100)  # 测试执行人员
+    developer = models.CharField(max_length=100)    # 备用
+    # status = models.BooleanField()      # 备用
+    modules_desc = models.CharField('模块描述', max_length=200)     # 模块描述
+    create_time = models.DateTimeField('创建时间', auto_now=True)  # 创建时间
 
-    class Meta:
-        db_table = 'page'
-
-    def clean(self):
-        name = self.name.strip() if self.name else ""
-        projectId = int(self.projectId) if self.projectId and str(self.projectId).isdigit() else 0
-        if 0 >= len(name) or len(name) > 20:
-            raise ValidationError({'name': '无效的页面名称'})
-        if projectId < 1:
-            raise ValidationError({'projectId': '无效的项目Id'})
+    def __str__(self):
+        return self.modules_name
 
 
 class Element(models.Model):
-    projectId = models.IntegerField()
-    pageId = models.IntegerField()
+    projectId = models.ForeignKey(Project, on_delete=models.CASCADE)
+    mid = models.ForeignKey(Modules, on_delete=models.CASCADE)
     name = models.CharField(max_length=20, null=False)
-    remark = models.TextField(null=True)
-    createTime = models.DateTimeField(default=timezone.now)
+    remark = models.TextField('备注信息', null=True)
+    createTime = models.DateTimeField('创建时间', auto_now=True)
     BY_TYPES = ["id", "xpath", "link text", "partial link text", "name", "tag name", "class name", "css selector"]
     by = models.CharField(null=False, max_length=20)
     locator = models.CharField(max_length=200, null=False)
@@ -78,7 +80,7 @@ class Element(models.Model):
 
 class Keyword(models.Model):
     __KEYWORD_TYPES = {1: "system", 2: "custom"}
-    projectId = models.IntegerField()
+    projectId = models.ForeignKey(Project, on_delete=models.CASCADE)
     name = models.CharField(max_length=20)
     type = models.IntegerField(default=2)
     package = models.CharField(max_length=200, null=True)
@@ -150,7 +152,7 @@ class TestCase(models.Model):
     TESTCASE_STATUS = {1: "未执行", 2: "排队中", 3: "执行中"}
     TESTCASE_LEVEL = {1: "低", 2: "中", 3: "高", }
     TESTCASE_CHECK_TYPE = {1: "url", 2: "element"}
-    projectId = models.IntegerField()
+    projectId = models.ForeignKey(Project, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, null=False)
     # type = models.IntegerField(null=False, default=1)
     level = models.IntegerField(default=1)
@@ -229,7 +231,7 @@ class TestCase(models.Model):
 
 
 class Environment(models.Model):
-    projectId = models.IntegerField(null=True)
+    projectId = models.ForeignKey(Project, on_delete=models.CASCADE)
     name = models.CharField(max_length=20, null=False)
     host = models.TextField(null=False)
     remark = models.TextField(null=True)
@@ -317,7 +319,7 @@ class Browser(models.Model):
 class Result(models.Model):
     title = models.CharField(max_length=200, null=False)
     taskId = models.IntegerField(null=True, default=0)
-    projectId = models.IntegerField()
+    projectId = models.ForeignKey(Project, on_delete=models.CASCADE)
     testcaseId = models.IntegerField()
     browsers = models.TextField(null=True)
     beforeLogin = models.TextField(null=True)
@@ -429,7 +431,7 @@ class Check:
 
 
 class LoginConfig(models.Model):
-    projectId = models.IntegerField()
+    projectId = models.ForeignKey(Project, on_delete=models.CASCADE)
     name = models.CharField(max_length=20, null=False)
     remark = models.TextField(null=True)
     checkType = models.TextField(default='')
