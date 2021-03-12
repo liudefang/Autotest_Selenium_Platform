@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path
 
 from Admin import views
+from Admin.views import *
+from Product.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,8 +27,15 @@ urlpatterns = [
     url(r'^register/$', views.register),
     url(r'^home/$', views.home),
     url(r'^', views.login, name='login'),
+    # Login
     url(r'^api/browser', Public.data),
     url(r'^api/projectSummary', Public.index),
-    url(r'^api/barChar', Public.bar_char),
-    url(r'^api/lineChar', Public.line_char),
+    #url(r'^api/barChar', Public.bar_char),
+    #url(r'^api/lineChar', Public.line_char),
+
+    # project
+    url('^api/project/create', Project.create),
+
+    url('^admin/home', home)
+
 ]
