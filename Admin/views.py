@@ -1,9 +1,10 @@
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from Admin.forms import RegForm
-from Product.models import UserInfo
+from Product.models import UserInfo, Project
+
 
 # Create your views here.
 
@@ -89,6 +90,16 @@ def toastr(request):
 
     return render(request, "toastr.html")
 
+def logout(request):
+    """
+    退出系统
+    :param request:
+    :return:
+    """
+    auth.logout(request)
+
+    return redirect("/login/")
+
 
 @login_required
 def home(request):
@@ -99,3 +110,15 @@ def home(request):
     """
 
     return render(request, "home.html")
+
+
+@login_required
+def project1(request):
+    """
+    项目
+    :param request:
+    :return:
+    """
+    project_list = Project.objects.filter().all()
+
+    return render(request, "project.html", {"project_list": project_list})

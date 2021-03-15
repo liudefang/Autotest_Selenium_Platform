@@ -26,7 +26,8 @@ urlpatterns = [
     url(r'^login', views.login, name='login'),
     url(r'^register/$', views.register),
     url(r'^home/$', views.home),
-    url(r'^', views.login, name='login'),
+    url(r'^logout/$', views.logout),
+    # url(r'^', views.login, name='login'),
     # Login
     url(r'^api/browser', Public.data),
     url(r'^api/projectSummary', Public.index),
@@ -34,8 +35,9 @@ urlpatterns = [
     #url(r'^api/lineChar', Public.line_char),
 
     # project
-    url('^api/project/create', Project.create),
-
-    url('^admin/home', home)
+    #url('^api/project/create', Project.create),
+    url(r'^admin/project/$', project1),
+    url(r'^add_project/$', add_project),
+    url(r'^admin/home/$', home)
 
 ]
