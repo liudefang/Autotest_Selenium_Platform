@@ -5,13 +5,26 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>项目管理</title>
+
+    <script src="{% static 'js/jquery-3.3.1.js' %}"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+     <link rel="stylesheet" href="/static/css/toastr.min.css">
+     <script src="/static/js/toastr.min.js"></script>
         <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet"/>
     <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet"/>
     <link href="{% static 'js/morris/morris-0.4.3.min.css' %}" rel="stylesheet"/>
     <link href="{% static 'css/custom-styles.css' %}" rel="stylesheet"/>
-    <script src="/static/js/bootstrap.min.js"></script>
-    <script src="/static/js/toastr.min.js"></script>
-    <link rel="stylesheet" href="/static/css/toastr.min.css">
+    <script src="{% static 'js/jquery.metisMenu.js' %}"></script>
+    <script src="{% static 'js/morris/raphael-2.1.0.min.js' %}"></script>
+    <script src="{% static 'js/morris/morris.js' %}"></script>
+    <script src="{% static 'js/dataTables/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'js/dataTables/dataTables.bootstrap.js' %}"></script>
+    <script src="{% static 'js/custom-scripts.js' %}"></script>
+    <script src="{% static 'datetimepicker/bootstrap-datetimepicker.min.js' %}"></script>
+    <script src="{% static 'datetimepicker/bootstrap-datetimepicker.zh-CN.js' %}"></script>
+    <script src="{% static 'datetimepicker/moment-with-locales(1).js' %}"></script>
+    <script src="/static/js/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="/static/css/sweetalert.css">
 
 
 </head>
@@ -92,11 +105,16 @@
             </div>
             <!-- /. ROW  -->
             <!-- /. 表格  -->
+             <div id="myAlert1" class="alert alert-warning" style="display: none;">
+                                            <a href="#" class="close" data-dismiss="alert">&times;</a>
+                                            <strong>警告!</strong>请勾选一条数据
+                                    </div>
             <div class="row">
                 <div class="col-md-12">
                     <!-- Advanced Tables -->
                     <div class="panel panel-default">
                         <!--<div class="panel-heading">表格名字</div>-->
+
                         <div class="panel-body" style="min-height:600px">
                             <div class="row mar-bottom-20">
                                 <div class="col-lg-12">
@@ -137,13 +155,22 @@
 
                                         </div>
 
+
                                         <button type="submit" class="btn btn-primary" onclick="search()">搜索</button>
                                         <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#addmyModal">
                                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 添加
                                         </button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editmyModal">
+                                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 修改
+                                        </button>
+                                        <button id="btn_del" type="onclick" class="btn btn-danger ">
+                                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> 删除
+                                        </button>
+
                                     </div>
 
                                 </div>
+
                             </div>
                             <!-- 新增项目模态框 -->
                             <div class="modal fade" id="addmyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -184,31 +211,7 @@
                               </div>
                             </div>
                             <!--end 新建弹窗-->
-                            <!--删除询问弹窗提示-->
-                            <div class="modal fade" id="delProject" tabindex="-1" role="dialog"
-                                 aria-labelledby="myModalLabel1"
-                                 aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" onclick="cancel()">
-                                                &times;
-                                            </button>
-                                            <h4 class="modal-title">删除项目</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p>请确认是否删除项目</p>
-                                            <p id='delMessage' class="js_DELmessage text-danger"></p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" onclick="cancel()">取消
-                                            </button>
-                                            <button type="button" class="btn btn-primary" id="delButton">确定
-                                            </button>
-                                        </div>
-                                    </div><!-- /.modal-content -->
-                                </div><!-- /.modal -->
-                            </div>
+
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                                     <thead>
@@ -251,17 +254,8 @@
     <!-- /. PAGE WRAPPER  -->
 </div>
 
-<script src="{% static 'js/jquery-1.10.2.js' %}"></script>
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
-<script src="{% static 'js/jquery.metisMenu.js' %}"></script>
-<script src="{% static 'js/morris/raphael-2.1.0.min.js' %}"></script>
-<script src="{% static 'js/morris/morris.js' %}"></script>
-<script src="{% static 'js/dataTables/jquery.dataTables.js' %}"></script>
-<script src="{% static 'js/dataTables/dataTables.bootstrap.js' %}"></script>
-<script src="{% static 'js/custom-scripts.js' %}"></script>
-<script src="{% static 'datetimepicker/bootstrap-datetimepicker.min.js' %}"></script>
-<script src="{% static 'datetimepicker/bootstrap-datetimepicker.zh-CN.js' %}"></script>
-<script src="{% static 'datetimepicker/moment-with-locales(1).js' %}"></script>
+<script src="{% static 'js/jquery-3.3.1.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
 
 <script>
@@ -304,7 +298,7 @@
             },
 
             success: function (data) {
-
+                console.log(data)
                 if (data.status== 0) {
                     alert(111)
                     toastr.success('新增项目成功');
@@ -329,6 +323,86 @@
             }
 
         })
+    });
+
+        // 删除项目
+    $("#btn_del").click(function () {
+            var env_ids=new Array();
+
+                var count=0;
+
+                var i=0;
+                 var row = $(this).parent().parent();
+                var pathname = window.location.pathname;
+                var url = null;
+                $("#dataTables-example").find(":checkbox:checked").each(function() {
+
+                    env_id = $(this).parent().next().text();
+                    console.log(env_id)
+                    if (env_id != "") {
+
+                        env_ids[i++] = env_id;
+
+                    }
+
+                    count++;
+
+                });
+
+            alert(count)
+            if(count>0){
+                url = /project/+env_id+pathname.replace('/project/', '/delete/')
+                 // 删除插件的应用
+            swal({
+
+                title: "确定要删除吗？",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                closeOnConfirm: true
+
+            },
+
+            function () {
+                $.ajax({
+
+                    url: url,
+                    type: 'post',
+                    data:{
+                        delete_id: env_id,
+
+                    },
+
+                    success:function (ret) {
+                        var data = JSON.parse(ret);
+                        if(data.status == 0){
+                            row.remove();
+
+                            toastr.success(data.msg);
+                            setTimeout(function () {
+                            location.href = "/project/"
+                        }, 2000)
+
+
+                        }else{
+                            toastr.error(data.msg);
+                            setTimeout(function () {
+                            location.href = "/project/"
+                        }, 2000)
+                        }
+
+
+                    }
+                });
+
+            });
+            }
+            else {
+                toastr.error("请至少选择一项")
+            }
+
     });
 
     function edit(id) {

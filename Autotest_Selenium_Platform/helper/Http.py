@@ -1,41 +1,41 @@
 import json
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
 
-class JsonResponse(HttpResponse):
-    def __init__(self, code=200, message='ok', data=None):
-        response = dict()
-        response['code'] = code
-        response['message'] = message
-        response['data'] = data
-        super(JsonResponse, self).__init__(json.dumps(response, ensure_ascii=False), content_type="application/json",)
-        self["Access-Control-Allow-Origin"] = "*"
-        self["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
-        self["Access-Control-Max-Age"] = "1000"
-        self["Access-Control-Allow-Headers"] = "*"
-        self["Accept"] = "*"
-
-    @staticmethod
-    def OK(message="ok", data=None):
-        response =  JsonResponse(200, message, data)
-        return response
-
-    @staticmethod
-    def BadRequest(message="Bad request", data=None):
-        response = JsonResponse(400, message, data)
-        return response
-
-    @staticmethod
-    def Unauthorized(message="Unauthorized", data=None):
-        return JsonResponse(401, message, data)
-
-    @staticmethod
-    def MethodNotAllowed(message="Method not allowed", data=None):
-        return JsonResponse(405, message, data)
-
-    @staticmethod
-    def ServerError(message="Internal server error", data=None):
-        return JsonResponse(500, message, data)
+# class JsonResponse(HttpResponse):
+#     def __init__(self, code=200, message='ok', data=None):
+#         response = dict()
+#         response['code'] = code
+#         response['message'] = message
+#         response['data'] = data
+#         super(JsonResponse, self).__init__(json.dumps(response, ensure_ascii=False), content_type="application/json",)
+#         self["Access-Control-Allow-Origin"] = "*"
+#         self["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+#         self["Access-Control-Max-Age"] = "1000"
+#         self["Access-Control-Allow-Headers"] = "*"
+#         self["Accept"] = "*"
+#
+#     @staticmethod
+#     def OK(message="ok", data=None):
+#         response =  JsonResponse(200, message, data)
+#         return response
+#
+#     @staticmethod
+#     def BadRequest(message="Bad request", data=None):
+#         response = JsonResponse(400, message, data)
+#         return response
+#
+#     @staticmethod
+#     def Unauthorized(message="Unauthorized", data=None):
+#         return JsonResponse(401, message, data)
+#
+#     @staticmethod
+#     def MethodNotAllowed(message="Method not allowed", data=None):
+#         return JsonResponse(405, message, data)
+#
+#     @staticmethod
+#     def ServerError(message="Internal server error", data=None):
+#         return JsonResponse(500, message, data)
 
 
 class Session:

@@ -38,6 +38,7 @@ urlpatterns = [
     #url('^api/project/create', Project.create),
     url(r'^admin/project/$', project1),
     url(r'^add_project/$', add_project),
+    url(r'^del_project/$', del_project),
     url(r'^admin/home/$', home)
 
 ]

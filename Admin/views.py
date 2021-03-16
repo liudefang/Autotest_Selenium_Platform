@@ -122,3 +122,6 @@ def project1(request):
     project_list = Project.objects.filter().all()
 
     return render(request, "project.html", {"project_list": project_list})
+
+
+
